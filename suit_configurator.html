@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Suits - Configuration</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Lato', sans-serif; }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Utility for validation error */
+        .input-error { border-color: #ef4444 !important; ring: 2px; ring-color: #fca5a5; }
+
+        /* Custom Scrollbar for Summary */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media print {
+            .no-print { display: none !important; }
+            .print-full { width: 100% !important; grid-column: span 12 !important; }
+            .print-show { display: block !important; }
+            button { display: none !important; } /* Hide all buttons in print */
+            body { background-color: white; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 no-print border-b border-yellow-600/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-4">
+                    
+                    <!-- LOGO LOGIC -->
+                    <div class="flex items-center justify-center">
+                        <img src="images/logo.png" 
+                             alt="Logo" 
+                             class="h-12 w-auto object-contain" 
+                             onerror="this.style.display='none'; document.getElementById('default-icon').classList.remove('hidden');">
+                        
+                        <!-- Fallback Icon -->
+                        <div id="default-icon" class="hidden bg-yellow-600 p-2 rounded-sm shadow-lg items-center justify-center transform rotate-45">
+                            <i data-lucide="scissors" class="w-6 h-6 text-white transform -rotate-45"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-serif tracking-widest font-bold text-white leading-none">CAPITAL</span>
+                        <span class="text-xs tracking-[0.3em] text-yellow-500 font-medium uppercase mt-1">Suits & Tailoring</span>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="window.print()" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-5 py-2.5 rounded-sm transition-all text-sm uppercase tracking-wide hover:border-yellow-600/50">
+                        <i data-lucide="printer" class="w-4 h-4 text-yellow-500"></i>
+                        <span>Print Preview</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-10">
+            
+            <!-- Main Form Area -->
+            <div class="lg:col-span-8 print-full">
+                
+                <!-- Section Tabs -->
+                <div class="flex p-1 rounded-xl mb-8 no-print bg-white shadow-sm border border-slate-200" id="tabs-container">
+                    <button onclick="switchTab('jacket')" id="tab-jacket" class="flex-1 flex items-center justify-center space-x-2 py-4 text-sm font-bold uppercase tracking-wide rounded-lg transition-all duration-300 bg-slate-900 text-white shadow-md transform scale-105">
+                        <i data-lucide="scissors" class="w-4 h-4"></i>
+                        <span>Jacket</span>
+                    </button>
+                    <button onclick="switchTab('pants')" id="tab-pants" class="flex-1 flex items-center justify-center space-x-2 py-4 text-sm font-bold uppercase tracking-wide rounded-lg transition-all duration-300 text-slate-500 hover:text-slate-800 hover:bg-slate-50">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        <span>Pants</span>
+                    </button>
+                    <button onclick="switchTab('measurements')" id="tab-measurements" class="flex-1 flex items-center justify-center space-x-2 py-4 text-sm font-bold uppercase tracking-wide rounded-lg transition-all duration-300 text-slate-500 hover:text-slate-800 hover:bg-slate-50">
+                        <i data-lucide="ruler" class="w-4 h-4"></i>
+                        <span>Measurements</span>
+                    </button>
+                </div>
+
+                <!-- JACKET SECTION -->
+                <div id="section-jacket" class="section-content animate-fade-in">
+                    <div class="bg-white shadow-md border border-slate-200 rounded-xl p-8 mb-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-yellow-500"></div>
+                        <h2 class="text-3xl font-serif text-slate-900 mb-8 pb-4 border-b border-slate-100 flex items-center">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-sans font-bold px-2 py-1 rounded mr-3 uppercase tracking-wider">Step 1</span>
+                            Jacket Configuration
+                        </h2>
+                        
+                        <div class="space-y-10">
+                            <!-- Fabric Code -->
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">Fabric Selection <span class="text-red-500">*</span></label>
+                                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 flex items-start space-x-6 hover:border-slate-300 transition-colors">
+                                    <div class="bg-white p-3 rounded shadow-sm border border-slate-100">
+                                        <i data-lucide="layers" class="w-8 h-8 text-slate-400"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Fabric Code</label>
+                                        <input type="text" id="input-fabricCode" oninput="updateText('fabricCode', this.value)" class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 p-3 border font-mono text-lg" placeholder="e.g. NVY-101">
+                                        <p class="mt-2 text-sm text-slate-500 italic flex items-center">
+                                            <i data-lucide="info" class="w-3 h-3 mr-1"></i>
+                                            Refer to physical swatch book
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Visual Options Generated Here -->
+                            <div id="container-buttonConfig"></div>
+                            <div id="container-lapelStyle"></div>
+                            <div id="container-vent"></div>
+                            <div id="container-pocket"></div>
+                            <div id="container-amfStitching"></div>
+
+                            <!-- Sleeve Details -->
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <h3 class="text-xl font-serif font-bold text-slate-900 mb-6">Sleeve Details</h3>
+                                <div class="space-y-8">
+                                    <div id="container-sleeveBtnCount"></div>
+                                    
+                                    <!-- Sleeve Functionality -->
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">Functionality</label>
+                                        <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                                            <button onclick="updateSelection('sleeveBtnStyle', 'Working Buttons')" id="opt-sleeveBtnStyle-Working Buttons" class="btn-text-option relative flex items-center justify-center px-6 py-4 border rounded-lg shadow-sm text-sm font-bold uppercase tracking-wide focus:outline-none transition-all duration-300 bg-white border-slate-300 text-slate-600 hover:bg-slate-100 hover:-translate-y-0.5">
+                                                Working Buttons
+                                            </button>
+                                            <button onclick="updateSelection('sleeveBtnStyle', 'Not Working Buttons')" id="opt-sleeveBtnStyle-Not Working Buttons" class="btn-text-option relative flex items-center justify-center px-6 py-4 border rounded-lg shadow-sm text-sm font-bold uppercase tracking-wide focus:outline-none transition-all duration-300 bg-slate-900 border-slate-900 text-white ring-2 ring-offset-2 ring-slate-400 hover:-translate-y-0.5">
+                                                Not Working Buttons
+                                                <i data-lucide="check" class="w-4 h-4 absolute right-4 text-yellow-400"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lining -->
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <h3 class="text-xl font-serif font-bold text-slate-900 mb-6">Lining Selection</h3>
+                                <div id="container-lining"></div>
+                                <div class="mt-6">
+                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Lining Code <span id="req-liningCode" class="text-red-500 hidden">*</span></label>
+                                    <input type="text" id="input-liningCode" oninput="updateText('liningCode', this.value)" class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 p-3 border font-mono" placeholder="e.g. L-502">
+                                </div>
+                            </div>
+
+                            <!-- Monogram -->
+                            <div class="p-6 border-t border-slate-100 mt-6">
+                                <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wide">Monogram</label>
+                                <div class="relative rounded-md shadow-sm max-w-md">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-slate-400 font-serif italic text-lg">Initial</span>
+                                    </div>
+                                    <input type="text" id="input-monogram" oninput="updateText('monogram', this.value)" class="w-full pl-16 border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 p-4 border text-lg font-serif text-slate-900" placeholder="Client Name or Initials">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANTS SECTION -->
+                <div id="section-pants" class="section-content hidden animate-fade-in">
+                    <div class="bg-white shadow-md border border-slate-200 rounded-xl p-8 mb-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-yellow-500"></div>
+                        <h2 class="text-3xl font-serif text-slate-900 mb-8 pb-4 border-b border-slate-100 flex items-center">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-sans font-bold px-2 py-1 rounded mr-3 uppercase tracking-wider">Step 2</span>
+                            Pants Configuration
+                        </h2>
+                        
+                        <div class="space-y-10">
+                            <div id="container-backPocket"></div>
+                            <div id="container-sidePockets"></div>
+
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <h3 class="text-xl font-serif font-bold text-slate-900 mb-6">Waist Configuration</h3>
+                                <div class="space-y-8">
+                                    <div id="container-waistband"></div>
+                                    
+                                    <!-- Suspenders -->
+                                    <div onclick="toggleSuspenders()" id="suspenders-container" class="flex items-center bg-white p-5 rounded-lg border border-slate-300 cursor-pointer transition-all hover:shadow-md hover:border-yellow-500 group">
+                                        <div id="suspenders-checkbox" class="flex items-center justify-center h-6 w-6 rounded border border-slate-300 transition-colors group-hover:border-yellow-500">
+                                            <!-- Check icon injected via JS -->
+                                        </div>
+                                        <label class="ml-4 block text-sm font-bold text-slate-700 cursor-pointer group-hover:text-slate-900">
+                                            Add Buttons for Suspenders <span class="text-slate-400 font-normal ml-2">(Optional)</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="pt-6 border-t border-slate-200">
+                                        <div id="container-pleats"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MEASUREMENTS SECTION -->
+                <div id="section-measurements" class="section-content hidden animate-fade-in">
+                    <div class="bg-white shadow-md border border-slate-200 rounded-xl p-8 mb-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-yellow-500"></div>
+                        <h2 class="text-3xl font-serif text-slate-900 mb-8 pb-4 border-b border-slate-100 flex items-center">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-sans font-bold px-2 py-1 rounded mr-3 uppercase tracking-wider">Step 3</span>
+                            Client Measurements
+                        </h2>
+                        
+                        <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-md p-4 mb-8">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i data-lucide="info" class="h-5 w-5 text-blue-600"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-bold text-blue-800 uppercase tracking-wide">Measurement Standard</h3>
+                                    <div class="mt-1 text-sm text-blue-700">
+                                        <p>Use a standard tailoring tape. Enter Height in <strong>cm</strong>, Weight in <strong>kg</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+                            <!-- Personal Stats -->
+                            <div class="col-span-1 sm:col-span-2 lg:col-span-3 bg-slate-100 p-6 rounded-lg mb-4 border border-slate-200">
+                                <h3 class="text-slate-800 font-bold mb-6 uppercase text-xs tracking-widest flex items-center">
+                                    <i data-lucide="user" class="w-4 h-4 mr-2"></i> Personal Stats <span class="text-red-500 ml-1">*</span>
+                                </h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                    <div class="relative group">
+                                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide group-focus-within:text-yellow-600">Height (cm)</label>
+                                        <input type="number" id="input-height" oninput="updateMeasurement('height', this.value)" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-lg py-3 px-4 border transition-shadow" placeholder="0.0">
+                                    </div>
+                                    <div class="relative group">
+                                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide group-focus-within:text-yellow-600">Weight (kg)</label>
+                                        <input type="number" id="input-weight" oninput="updateMeasurement('weight', this.value)" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-lg py-3 px-4 border transition-shadow" placeholder="0.0">
+                                    </div>
+                                    <div class="relative group">
+                                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide group-focus-within:text-yellow-600">Age</label>
+                                        <input type="number" id="input-age" oninput="updateMeasurement('age', this.value)" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-lg py-3 px-4 border transition-shadow" placeholder="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Generation for Measurements Inputs -->
+                            <div id="measurements-grid" class="contents"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sticky Summary / Sidebar -->
+            <div class="lg:col-span-4 no-print">
+                <div class="sticky top-24">
+                    <div class="bg-white shadow-xl border border-slate-200 rounded-xl overflow-hidden ring-1 ring-black/5">
+                        <div class="bg-slate-900 text-white px-6 py-5 border-b-4 border-yellow-600">
+                            <h3 class="text-lg font-serif font-bold tracking-wide flex items-center">
+                                <i data-lucide="clipboard-list" class="w-5 h-5 mr-3 text-yellow-500"></i>
+                                Order Summary
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-8 max-h-[calc(100vh-200px)] overflow-y-auto custom-scroll bg-slate-50/50">
+                            
+                            <!-- Jacket Summary -->
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                                <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Jacket</h4>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Fabric</span><span id="sum-fabricCode" class="text-slate-900 font-mono text-sm font-bold text-right bg-slate-100 px-2 py-0.5 rounded">---</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Style</span><span id="sum-buttonConfig" class="text-slate-800 text-sm text-right">Single Breasted 2 Buttons</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Lapel</span><span id="sum-lapelStyle" class="text-slate-800 text-sm text-right">Notch</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Lining</span><span id="sum-lining" class="text-slate-800 text-sm text-right">Full Lining</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Lining Code</span><span id="sum-liningCode" class="text-slate-900 font-mono text-sm text-right">-</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Pants Summary -->
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-100">
+                                <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Pants</h4>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Pleats</span><span id="sum-pleats" class="text-slate-800 text-sm text-right">No Pleat</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Waistband</span><span id="sum-waistband" class="text-slate-800 text-sm text-right">Normal</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Extras</span><span id="sum-suspenders" class="text-slate-800 text-sm text-right">-</span></div>
+                                    <div class="flex justify-between items-baseline"><span class="text-slate-500 text-xs font-bold uppercase">Back Pocket</span><span id="sum-backPocket" class="text-slate-800 text-sm text-right">Normal</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Stats -->
+                            <div>
+                                <h4 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">Client</h4>
+                                <div class="grid grid-cols-2 gap-3 text-sm text-slate-600">
+                                    <div class="bg-white p-2 rounded border border-slate-200 text-center">
+                                        <span class="block text-xs text-slate-400 uppercase">Height</span>
+                                        <span id="sum-height" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div class="bg-white p-2 rounded border border-slate-200 text-center">
+                                        <span class="block text-xs text-slate-400 uppercase">Weight</span>
+                                        <span id="sum-weight" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                </div>
+                                <div id="sum-monogram-container" class="mt-4 bg-slate-900 p-3 rounded-lg text-center shadow-md hidden">
+                                    <span class="text-xs text-yellow-500 uppercase tracking-widest block mb-1">Monogram</span>
+                                    <span id="sum-monogram" class="font-serif italic text-white text-lg"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 border-t border-slate-200">
+                            <button onclick="submitOrder()" class="w-full bg-yellow-600 text-white py-4 rounded-lg hover:bg-yellow-700 transition-all transform hover:-translate-y-0.5 font-bold uppercase tracking-wider flex justify-center items-center space-x-2 shadow-lg hover:shadow-xl">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                                <span>Submit Order via Email</span>
+                            </button>
+                            <p class="text-[10px] text-slate-400 text-center mt-3 uppercase tracking-wide">Incomplete orders cannot be submitted.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // State Management
+        const state = {
+            formData: {
+                fabricCode: '',
+                buttonConfig: 'Single Breasted 2 Buttons',
+                lapelStyle: 'Notch',
+                vent: 'Side Vent',
+                pocket: 'Normal',
+                sleeveBtnCount: '4 Buttons',
+                sleeveBtnStyle: 'Not Working Buttons',
+                lining: 'Full Lining',
+                liningCode: '',
+                amfStitching: 'No AMF Stitching',
+                monogram: '',
+                backPocket: 'Normal',
+                waistband: 'Normal',
+                suspenders: false,
+                pleats: 'No Pleat',
+                sidePockets: 'Normal',
+                measurements: {}
+            }
+        };
+
+        // Configuration Data for Visual Groups (Images 1-39)
+        const getImgUrl = (id) => `images/${id}.png`;
+
+        const optionsConfig = {
+            buttonConfig: { label: "Button Configuration", cols: 3, options: [
+                { label: 'Single Breasted 1 Button', value: 'Single Breasted 1 Button', img: getImgUrl(1) },
+                { label: 'Single Breasted 2 Buttons', value: 'Single Breasted 2 Buttons', img: getImgUrl(2) },
+                { label: 'Single Breasted 3 Buttons', value: 'Single Breasted 3 Buttons', img: getImgUrl(3) },
+                { label: 'Double Breasted 4x1', value: 'Double Breasted 4x1', img: getImgUrl(4) },
+                { label: 'Double Breasted 4x2', value: 'Double Breasted 4x2', img: getImgUrl(5) },
+                { label: 'Double Breasted 6x1', value: 'Double Breasted 6x1', img: getImgUrl(6) },
+                { label: 'Double Breasted 6x2', value: 'Double Breasted 6x2', img: getImgUrl(7) },
+                { label: 'Double Breasted 6x3', value: 'Double Breasted 6x3', img: getImgUrl(8) },
+            ]},
+            lapelStyle: { label: "Lapel Style", cols: 3, options: [
+                { label: 'Notch', value: 'Notch', img: getImgUrl(9) },
+                { label: 'Peak', value: 'Peak', img: getImgUrl(10) },
+                { label: 'Shawl', value: 'Shawl Collar', img: getImgUrl(11) },
+            ]},
+            vent: { label: "Vent Style", cols: 3, options: [
+                { label: 'Center', value: 'Center Vent', img: getImgUrl(12) },
+                { label: 'Side', value: 'Side Vent', img: getImgUrl(13) },
+                { label: 'None', value: 'No Vent', img: getImgUrl(14) },
+            ]},
+            pocket: { label: "Pocket Style", cols: 3, options: [
+                { label: 'Normal', value: 'Normal', img: getImgUrl(15) },
+                { label: 'Double Normal', value: 'Double Normal', img: getImgUrl(16) },
+                { label: 'Slant', value: 'Slant', img: getImgUrl(17) },
+                { label: 'Double Slant', value: 'Double Slant', img: getImgUrl(18) },
+                { label: 'Patch', value: 'Patch', img: getImgUrl(19) },
+            ]},
+            amfStitching: { label: "AMF Stitching", cols: 2, options: [
+                { label: 'Full Body', value: 'Full Body', img: getImgUrl(20) },
+                { label: 'None', value: 'No AMF Stitching', img: getImgUrl(21) },
+            ]},
+            sleeveBtnCount: { label: "Number of Buttons", cols: 3, options: [
+                { label: '3 Buttons', value: '3 Buttons', img: getImgUrl(22) },
+                { label: '4 Buttons', value: '4 Buttons', img: getImgUrl(23) },
+                { label: '5 Buttons', value: '5 Buttons', img: getImgUrl(24) },
+            ]},
+            lining: { label: "Lining Type", cols: 3, options: [
+                { label: 'Full', value: 'Full Lining', img: getImgUrl(25) },
+                { label: 'Half', value: 'Half Lining', img: getImgUrl(26) },
+                { label: 'None', value: 'No Lining', img: getImgUrl(27) },
+            ]},
+            backPocket: { label: "Back Pocket", cols: 3, options: [
+                { label: 'Normal', value: 'Normal', img: getImgUrl(28) },
+                { label: 'Square', value: 'Square', img: getImgUrl(29) },
+                { label: 'Triangle', value: 'Triangle', img: getImgUrl(30) },
+            ]},
+            sidePockets: { label: "Side Pockets", cols: 4, options: [
+                { label: 'Normal', value: 'Normal', img: getImgUrl(31) },
+                { label: 'Welt', value: 'Welt', img: getImgUrl(32) },
+                { label: 'Straight', value: 'Straight Welt', img: getImgUrl(33) },
+                { label: 'None', value: 'None', img: getImgUrl(34) },
+            ]},
+            waistband: { label: "Waistband Style", cols: 2, options: [
+                { label: 'Normal', value: 'Normal', img: getImgUrl(35) },
+                { label: 'Buckle', value: 'Adjustable Buckle', img: getImgUrl(36) },
+            ]},
+            pleats: { label: "Pleats", cols: 3, options: [
+                { label: 'No Pleat', value: 'No Pleat', img: getImgUrl(37) },
+                { label: 'One Pleat', value: 'One Pleat', img: getImgUrl(38) },
+                { label: 'Two Pleat', value: 'Two Pleat', img: getImgUrl(39) },
+            ]}
+        };
+
+        const measurementFields = [
+            'Neck', 'Shoulder', 'Sleeve Length', 'Biceps', 'Wrist', 
+            'Chest', 'Stomach', 'Waist', 'Hips', 'Back Length', 
+            'Front Length', 'Leg Length', 'Leg Inseam', 'Crotch', 
+            'Thigh', 'Knee', 'Cuff'
+        ];
+
+        // Render Functions
+        function init() {
+            renderAllVisualGroups();
+            renderMeasurementsInputs();
+            updateAllSummaries();
+            updateAllVisualSelections();
+            lucide.createIcons();
+        }
+
+        function renderAllVisualGroups() {
+            Object.keys(optionsConfig).forEach(key => {
+                const config = optionsConfig[key];
+                const container = document.getElementById(`container-${key}`);
+                if (!container) return;
+
+                const gridClass = config.cols === 4 ? 'grid-cols-2 sm:grid-cols-4' : 
+                                  config.cols === 3 ? 'grid-cols-2 sm:grid-cols-3' : 
+                                  'grid-cols-2';
+
+                let html = `
+                    <div class="mb-8">
+                        <label class="block text-sm font-bold text-slate-700 mb-4 uppercase tracking-wide">${config.label}</label>
+                        <div class="grid gap-5 ${gridClass}">
+                `;
+
+                config.options.forEach(opt => {
+                    const safeVal = opt.value.replace(/\s+/g, '_');
+                    html += `
+                        <button onclick="updateSelection('${key}', '${opt.value}')" 
+                                id="opt-${key}-${opt.value}"
+                                class="btn-visual-option relative flex flex-col items-center justify-between p-4 border rounded-xl transition-all duration-300 text-center h-full group bg-white border-slate-200 hover:border-yellow-400 hover:shadow-lg hover:-translate-y-1">
+                            <div class="flex-1 flex items-center justify-center mb-4 w-full aspect-square bg-slate-50 rounded-lg overflow-hidden border border-slate-100">
+                                <img src="${opt.img}" alt="${opt.label}" class="object-contain w-full h-full p-2 opacity-90 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/150x150?text=${opt.label.substring(0,3)}';">
+                            </div>
+                            <span class="text-sm font-bold text-slate-500 label-span uppercase tracking-tight">${opt.label}</span>
+                            <div class="check-icon absolute top-3 right-3 bg-yellow-500 text-white rounded-full p-1 shadow-md hidden transform scale-100 transition-transform">
+                                <i data-lucide="check" class="w-3 h-3"></i>
+                            </div>
+                        </button>
+                    `;
+                });
+
+                html += `</div></div>`;
+                container.innerHTML = html;
+            });
+        }
+
+        function renderMeasurementsInputs() {
+            const container = document.getElementById('measurements-grid');
+            let html = '';
+            
+            measurementFields.forEach(field => {
+                const key = field.toLowerCase().replace(/ \w/g, m => m[1].toUpperCase());
+                html += `
+                    <div class="relative group">
+                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide group-focus-within:text-yellow-600 transition-colors">${field}</label>
+                        <input type="number" id="input-${key}" oninput="updateMeasurement('${key}', this.value)" class="block w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-sm py-2 px-3 border transition-shadow" placeholder="0.0">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Logic Functions
+        function switchTab(tabName) {
+            document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+
+            const tabs = ['jacket', 'pants', 'measurements'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabName) {
+                    btn.className = "flex-1 flex items-center justify-center space-x-2 py-4 text-sm font-bold uppercase tracking-wide rounded-lg transition-all duration-300 bg-slate-900 text-white shadow-md transform scale-105";
+                    btn.classList.remove('text-slate-500', 'hover:text-slate-800', 'hover:bg-slate-50');
+                } else {
+                    btn.className = "flex-1 flex items-center justify-center space-x-2 py-4 text-sm font-bold uppercase tracking-wide rounded-lg transition-all duration-300 text-slate-500 hover:text-slate-800 hover:bg-slate-50";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateSelection(field, value) {
+            state.formData[field] = value;
+            updateVisualClasses(field, value);
+            updateSummary(field, value);
+
+            if (field === 'lining') {
+                const reqStar = document.getElementById('req-liningCode');
+                const input = document.getElementById('input-liningCode');
+                if (value === 'No Lining') {
+                    reqStar.classList.add('hidden');
+                    state.formData.liningCode = ''; 
+                    input.value = '';
+                    updateSummary('liningCode', '-');
+                } else {
+                    reqStar.classList.remove('hidden');
+                }
+            }
+        }
+
+        function updateText(field, value) {
+            state.formData[field] = value;
+            updateSummary(field, value);
+            const el = document.getElementById(`input-${field}`);
+            if(el) el.classList.remove('input-error');
+        }
+
+        function updateMeasurement(field, value) {
+            state.formData.measurements[field] = value;
+            if(field === 'height' || field === 'weight') {
+                document.getElementById(`sum-${field}`).textContent = value ? `${value}${field === 'height' ? 'cm' : 'kg'}` : '-';
+            }
+            const el = document.getElementById(`input-${field}`);
+            if(el) el.classList.remove('input-error');
+        }
+
+        function toggleSuspenders() {
+            state.formData.suspenders = !state.formData.suspenders;
+            const container = document.getElementById('suspenders-container');
+            const checkbox = document.getElementById('suspenders-checkbox');
+            const summary = document.getElementById('sum-suspenders');
+
+            if (state.formData.suspenders) {
+                checkbox.className = "flex items-center justify-center h-6 w-6 rounded border bg-yellow-500 border-yellow-500 shadow-sm";
+                checkbox.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-white"></i>`;
+                summary.textContent = "Suspender Buttons";
+                container.classList.add('border-yellow-500', 'shadow-md');
+                lucide.createIcons();
+            } else {
+                checkbox.className = "flex items-center justify-center h-6 w-6 rounded border border-slate-300 group-hover:border-yellow-500";
+                checkbox.innerHTML = "";
+                summary.textContent = "-";
+                container.classList.remove('border-yellow-500', 'shadow-md');
+            }
+        }
+
+        // VALIDATION & SUBMISSION
+        function submitOrder() {
+            let errors = [];
+            let errorFields = [];
+
+            // 1. Check Fabric Code
+            if (!state.formData.fabricCode || state.formData.fabricCode.trim() === '') {
+                errors.push("Jacket: Fabric Code is required.");
+                errorFields.push('input-fabricCode');
+            }
+
+            // 2. Check Lining Code (only if lining selected)
+            if (state.formData.lining !== 'No Lining') {
+                if (!state.formData.liningCode || state.formData.liningCode.trim() === '') {
+                    errors.push("Jacket: Lining Code is required.");
+                    errorFields.push('input-liningCode');
+                }
+            }
+
+            // 3. Check Personal Stats
+            if (!state.formData.measurements.height) { errors.push("Stats: Height is required."); errorFields.push('input-height'); }
+            if (!state.formData.measurements.weight) { errors.push("Stats: Weight is required."); errorFields.push('input-weight'); }
+            if (!state.formData.measurements.age) { errors.push("Stats: Age is required."); errorFields.push('input-age'); }
+
+            // 4. Check All Measurements
+            measurementFields.forEach(field => {
+                const key = field.toLowerCase().replace(/ \w/g, m => m[1].toUpperCase());
+                if (!state.formData.measurements[key] || state.formData.measurements[key] <= 0) {
+                    errorFields.push(`input-${key}`);
+                    if (!errors.includes("Measurements: All fields must be filled.")) {
+                        errors.push("Measurements: All fields must be filled.");
+                    }
+                }
+            });
+
+            // Handle Errors
+            if (errors.length > 0) {
+                errorFields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.classList.add('input-error');
+                        // Add shake animation logic if desired
+                    }
+                });
+                
+                alert("Order Incomplete\n\nPlease check the marked fields:\n\n" + errors.join("\n"));
+                return;
+            }
+
+            // If Valid, Send Email
+            sendEmail();
+        }
+
+        function sendEmail() {
+            const m = state.formData.measurements;
+            const recipient = "dch.outlet@gmail.com";
+            const subject = `Capital Suits Order: ${state.formData.monogram || 'Client'}`;
+            
+            // Format Body
+            let body = `CAPITAL SUITS - NEW ORDER\n`;
+            body += `===================================\n`;
+            body += `CLIENT: ${state.formData.monogram || 'N/A'}\n`;
+            body += `Height: ${m.height}cm | Weight: ${m.weight}kg | Age: ${m.age}\n\n`;
+            
+            body += `JACKET CONFIGURATION\n`;
+            body += `--------------------\n`;
+            body += `Fabric Code: ${state.formData.fabricCode}\n`;
+            body += `Style: ${state.formData.buttonConfig}\n`;
+            body += `Lapel: ${state.formData.lapelStyle}\n`;
+            body += `Vent: ${state.formData.vent}\n`;
+            body += `Pocket: ${state.formData.pocket}\n`;
+            body += `AMF Stitching: ${state.formData.amfStitching}\n`;
+            body += `Sleeve: ${state.formData.sleeveBtnCount} (${state.formData.sleeveBtnStyle})\n`;
+            body += `Lining: ${state.formData.lining}\n`;
+            if(state.formData.lining !== 'No Lining') body += `Lining Code: ${state.formData.liningCode}\n`;
+            
+            body += `\nPANTS CONFIGURATION\n`;
+            body += `-------------------\n`;
+            body += `Back Pocket: ${state.formData.backPocket}\n`;
+            body += `Side Pockets: ${state.formData.sidePockets}\n`;
+            body += `Waistband: ${state.formData.waistband}\n`;
+            body += `Suspenders: ${state.formData.suspenders ? 'Yes' : 'No'}\n`;
+            body += `Pleats: ${state.formData.pleats}\n`;
+            
+            body += `\nFULL MEASUREMENTS\n`;
+            body += `-----------------\n`;
+            measurementFields.forEach(field => {
+                const key = field.toLowerCase().replace(/ \w/g, match => match[1].toUpperCase());
+                body += `${field}: ${m[key] || 0}\n`;
+            });
+
+            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        // UI Update Helpers
+        function updateVisualClasses(field, selectedValue) {
+            // Handle visual grid options
+            if (optionsConfig[field]) {
+                optionsConfig[field].options.forEach(opt => {
+                    const btn = document.getElementById(`opt-${field}-${opt.value}`);
+                    if (!btn) return;
+
+                    const labelSpan = btn.querySelector('.label-span');
+                    const checkIcon = btn.querySelector('.check-icon');
+
+                    if (opt.value === selectedValue) {
+                        // Selected State
+                        btn.classList.remove('bg-white', 'border-slate-200');
+                        btn.classList.add('bg-yellow-50', 'border-yellow-500', 'ring-2', 'ring-yellow-500/20', 'shadow-md', 'transform', '-translate-y-1');
+                        labelSpan.classList.replace('text-slate-500', 'text-slate-900');
+                        checkIcon.classList.remove('hidden');
+                    } else {
+                        // Deselected State
+                        btn.classList.add('bg-white', 'border-slate-200');
+                        btn.classList.remove('bg-yellow-50', 'border-yellow-500', 'ring-2', 'ring-yellow-500/20', 'shadow-md', 'transform', '-translate-y-1');
+                        labelSpan.classList.replace('text-slate-900', 'text-slate-500');
+                        checkIcon.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Handle text-only options (Sleeve Functionality)
+            if (field === 'sleeveBtnStyle') {
+                const opts = ['Working Buttons', 'Not Working Buttons'];
+                opts.forEach(opt => {
+                    const btn = document.getElementById(`opt-${field}-${opt}`);
+                    if (opt === selectedValue) {
+                        btn.className = "btn-text-option relative flex items-center justify-center px-6 py-4 border rounded-lg shadow-md text-sm font-bold uppercase tracking-wide focus:outline-none transition-all duration-300 bg-slate-900 border-slate-900 text-white ring-4 ring-yellow-500/20 transform -translate-y-0.5";
+                        if(!btn.querySelector('i')) btn.innerHTML += `<i data-lucide="check" class="w-4 h-4 absolute right-4 text-yellow-400"></i>`;
+                    } else {
+                        btn.className = "btn-text-option relative flex items-center justify-center px-6 py-4 border rounded-lg shadow-sm text-sm font-bold uppercase tracking-wide focus:outline-none transition-all duration-300 bg-white border-slate-300 text-slate-600 hover:bg-slate-50 hover:border-slate-400";
+                        const icon = btn.querySelector('i');
+                        if(icon) icon.remove();
+                    }
+                });
+                lucide.createIcons();
+            }
+        }
+
+        function updateSummary(field, value) {
+            const el = document.getElementById(`sum-${field}`);
+            if (el) {
+                el.textContent = value || '-';
+            }
+            if (field === 'monogram') {
+                const container = document.getElementById('sum-monogram-container');
+                if (value) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            }
+        }
+
+        function updateAllVisualSelections() {
+            Object.keys(optionsConfig).forEach(field => {
+                updateVisualClasses(field, state.formData[field]);
+            });
+            updateVisualClasses('sleeveBtnStyle', state.formData.sleeveBtnStyle);
+        }
+
+        function updateAllSummaries() {
+            Object.keys(state.formData).forEach(key => {
+                if (key !== 'measurements') updateSummary(key, state.formData[key]);
+            });
+        }
+
+        // Initialize App
+        window.onload = init;
+
+    </script>
+</body>
+</html>
